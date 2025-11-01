@@ -67,7 +67,7 @@ users = ["standard_user", "locked_out_user", "problem_user", "performance_glitch
 for user in users:
 
     driver.get("https://www.saucedemo.com/")
-    driver.implicitly_wait(1)
+    driver.implicitly_wait(0.5)
 
     username_text_box = driver.find_element(by=By.NAME, value="user-name")
     password_text_box = driver.find_element(by=By.NAME, value="password")
@@ -85,19 +85,22 @@ for user in users:
             EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error'], .error-message-container"))
         )
         error_text = error_el.text.strip()
-        print("\n[user User Test]")
+        print(f"[{user} Login Test]")
         print("! Login produced an error message:")
         print(error_text)
+        print(" ")
     except TimeoutException:
         # If no error appears, check for success
         current_url = driver.current_url
-        print("\n[user User Test]")
+        print(f"[{user} Login Test]")
         if "inventory.html" in current_url:
             print(":) Login successful! Reached inventory page.")
+            print(" ")
         else:
             print("!! No error message or redirect detected.")
             print("Current URL:", current_url)
             print("Page title:", driver.title)
+            print(" ")
 
 
 #SauceDemo End
